@@ -39,36 +39,7 @@ public class InputRequestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if(!InputService.isEnabled()) {
-            new AlertDialog.Builder(this)
-                    .setCancelable(false)
-                    .setTitle(R.string.input_a11y_title)
-                    .setMessage(R.string.input_a11y_msg)
-                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                            if (intent.resolveActivity(getPackageManager()) != null)
-                                startActivityForResult(intent, REQUEST_INPUT);
-                            else
-                                new AlertDialog.Builder(InputRequestActivity.this)
-                                        .setTitle(R.string.error)
-                                        .setMessage(R.string.input_a11y_act_not_found_msg)
-                                        .show();
-                        }
-                    })
-                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            postResultAndFinish(false);
-                        }
-                    })
-                    .show();
-        } else {
-            postResultAndFinish(true);
-        }
-
+        postResultAndFinish(true);
     }
 
     @Override
@@ -76,7 +47,7 @@ public class InputRequestActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_INPUT) {
             Log.d(TAG, "onActivityResult");
-            postResultAndFinish(InputService.isEnabled());
+            postResultAndFinish(true);
         }
     }
 
